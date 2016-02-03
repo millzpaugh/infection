@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid login">
+	<div class="row buttons">
+		<div class="form-group">
+			<div class="col-md-10 col-md-offset-2 text-block">
+                <h2 style="text-alight:center;">Infect the Classroom</h2>
+                <br>
+                <br>
+                <br>
+                <div >
+
+                    <h4></h4>
+
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid login">
+    <div class="row">
+
+    </div>
+    <div class="row buttons">
+        <div class="col-md-4">
+
+                    <img style=""class="login-bg" src='http://img.medicalxpress.com/newman/gfx/news/hires/2013/fluoutbreaks.jpg'>
+                                </div>
+        <div class="form-group">
+
+
+            <div style="margin-top:100px;" class="col-md-4 col-md-offset-0">
+                <a href="{% url 'full_infection' %}">
+                    <button type="submit" class="btn btn-primary btn-lg login-btn">
+
+                     Full Infection</button></a>
+                <a href="#">
+                    <button type="submit" class="btn btn-primary btn-lg login-btn">
+                     Limited Infection</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

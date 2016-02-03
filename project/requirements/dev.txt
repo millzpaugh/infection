@@ -1,0 +1,9 @@
+Werkzeug==0.11.3
+django-extensions==1.6.1
+six==1.10.0
+wsgiref==0.1.2
+(khan)localhost:khan amillspaugh$ pip freeze
+Django==1.9.1
+Werkzeug==0.11.3
+django-extensions==1.6.1
+six==1.10.0

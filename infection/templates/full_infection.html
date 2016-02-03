@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+<div class="container-fluid login">
+
+    <div class="row buttons">
+        <div class="form-group">
+            <div class="col-md-6 col-md-offset-3">
+              <h1>THE FULL INFECTION</h1>
+                <br>
+                <div>
+                {%  if get %}
+                <form action="{% url 'full_infection' %}" method="post" >
+                    {% csrf_token %}
+
+                    {{ form }}
+                     <button style='margin:20px;' type="submit" class="btn btn-primary btn-lg login-btn">
+                     Click Here to Infect The Entire Network!</button></a>
+                {%  endif %}
+                </form>
+
+
+                {% if messages %}
+                <div>
+                {% for m in messages %}
+                    <h3>{{ m }}</h3>
+                {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if rounds %}
+
+                <div class="col-md-9">
+                <div class="row">
+                    <h3>There are {{ networked_users }} networked users and {{ pool_size }} total users in the network.</h3>
+                    <h3>To infect all users, there were {{ rounds_for_total_infection }} rounds of infection.</h3>
+                </div>
+                    {%  for k,users in infection_rounds.items %}
+                      <div class="row">
+                      <hr>
+                        <h3>Round {{ k }}</h3>
+                        <h4>Infected Users: <br><br>
+                                <ul style="list-style-type: none;">
+                                {% for u in users %}
+
+                                <li class="col-md-3"><img style="border-radius:10%" src="http://lorempixel.com/100/100/sports/{{ k }}">{{ u.first_name }} {{ u.last_name }}</li>
+                                {% endfor %}
+                                 </ul>
+
+                                </h4>
+                       </div>
+                    {% endfor %}
+
+                      <div class="row">
+                      <hr>
+                        <h3>Outliers</h3>
+                        <h4>Users not infected because they're not connected to any other users.</h4>
+                        <h4>
+                        <ul style="list-style-type: none;">
+                        {% for u in outliers %}
+                            <li class="col-md-3"><img style="margin:1px;" src="http://lorempixel.com/100/100/sports/9/">{{ u.first_name }} {{ u.last_name }}</li>
+                        {% endfor %}
+                         </ul>
+
+                         </h4>
+                       </div>
+                </div>
+
+                {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
