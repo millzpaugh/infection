@@ -13,9 +13,12 @@ class MockarooResponse():
         self.users = users
 
     def create_test_users(self):
-        Student.objects.all().delete()
-        Coach.objects.all().delete()
-        KhanUser.objects.all().delete()
+        if Student.objects.all():
+            Student.objects.all().delete()
+        if Coach.objects.all():
+            Coach.objects.all().delete()
+        if KhanUser.objects.all(): 
+            KhanUser.objects.all().delete()
 
         for u in self.users:
             user = KhanUser(mockaroo_id=u['id'],
