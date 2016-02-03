@@ -61,7 +61,8 @@ class FullInfectionView(View):
                 if k > 1:
                     for list in v:
                         for u in list:
-                            users.append(u)
+                            if u not in users:
+                                users.append(u)
                     infection_rounds[k] = users
 
             return render(request,  self.template, {'rounds':rounds,
