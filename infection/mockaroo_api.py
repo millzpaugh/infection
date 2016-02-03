@@ -17,7 +17,7 @@ class MockarooResponse():
             Student.objects.all().delete()
         if Coach.objects.all():
             Coach.objects.all().delete()
-        if KhanUser.objects.all(): 
+        if KhanUser.objects.all():
             KhanUser.objects.all().delete()
 
         for u in self.users:
