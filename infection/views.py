@@ -13,7 +13,7 @@ from infection.forms import FullInfectionForm
 import json
 import requests
 from infection.models import KhanUser, Coach, Student
-from infection.mockaroo_api import MockarooAPIClient, MockarooResponse, infect, MockarooAPIException
+from infection.mockaroo_api import MockarooAPIClient, MockarooResponse, infect_all_users, MockarooAPIException
 import itertools
 import collections
 # Create your views here.
@@ -50,7 +50,7 @@ class FullInfectionView(View):
             mresponse = MockarooResponse(users=r)
             mresponse.create_test_users()
             mresponse.assign_mentees()
-            rounds = infect()
+            rounds = infect_all_users()
             infection_rounds = rounds['rounds']
             rounds_for_total_infection = len(rounds['rounds'].keys())
             networked_users = len(rounds['networked_users'])

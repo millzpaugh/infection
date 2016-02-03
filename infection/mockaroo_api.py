@@ -61,12 +61,9 @@ class MockarooResponse():
                         # eliminates possiblity to have coach - student, student-coach relationship
                             elif student_coach.students.all() and not coach_student in student_coach.students.all():
                                 mentees.append(student)
-                    print "MENTEES FINAL"
-                    print mentees
+
                     coach.students = mentees
                     coach.save()
-
-
 
 
 class MockarooAPIClient():
@@ -155,7 +152,7 @@ def remove_outliers(all_users):
             relevant_users.append(u)
     return relevant_users
 
-def infect():
+def infect_all_users():
     KhanUser.objects.reset_infection_status_to_zero()
 
     user = KhanUser.objects.order_by('?').first()
@@ -163,8 +160,7 @@ def infect():
 
     all_users = KhanUser.objects.all()
     relevant_users = remove_outliers(all_users)
-    print 'STATEMENT TRUE?!?!'
-    print all([u.is_infected for u in relevant_users])
+
     infection_spreading = True
 
     while infection_spreading:
@@ -176,10 +172,8 @@ def infect():
         current_infection_round = rounds_of_infections.keys()[-1]
 
         user_networks_to_infect = rounds_of_infections[current_infection_round]
-        print user_networks_to_infect
 
         network_size = len(user_networks_to_infect)
-        print network_size
 
         for i in range(0,network_size):
             print network_size
@@ -191,8 +185,7 @@ def infect():
 
         all_users = KhanUser.objects.all()
         relevant_users = remove_outliers(all_users)
-        print 'STATEMENT TRUE?!?!'
-        print all([u.is_infected for u in relevant_users])
+
 
         if all([u.is_infected for u in relevant_users]):
             break
@@ -200,5 +193,4 @@ def infect():
             continue
 
     return {'rounds':rounds_of_infections, 'networked_users': relevant_users}
-
 
