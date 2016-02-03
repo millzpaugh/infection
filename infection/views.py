@@ -73,3 +73,9 @@ class FullInfectionView(View):
                                                     'outliers':outliers})
 
 
+class LimitedInfection(View):
+    template = "limited_infection.html"
+
+    def get(self, request, *args, **kwargs):
+
+        return render(request,  self.template, {})
