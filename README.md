@@ -3,7 +3,7 @@
 This Django project is a visualization of the challenge described below. It is available here at this url: https://warm-spire-20456.herokuapp.com
 
 
-This project outlines the following challenge: 
+<strong>The Challenge:</strong>
 
 When rolling out big new features, sites like to enable them slowly, starting with just a team, then a handful of users, then some more users, and so on, until all users have the feature. This insulates the majority of users from bad bugs that crop up early in the life of a feature.
 
