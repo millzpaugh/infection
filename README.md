@@ -1,5 +1,8 @@
 # infection
 
+This Django project is a visualization of the challenge described below. It is available here at this url: https://warm-spire-20456.herokuapp.com
+
+
 This project outlines the following challenge: 
 
 When rolling out big new features, sites like to enable them slowly, starting with just a team, then a handful of users, then some more users, and so on, until all users have the feature. This insulates the majority of users from bad bugs that crop up early in the life of a feature.
@@ -11,4 +14,3 @@ First, model users (one attribute of a user is the version of the site they see)
 Now implement the infection algorithm. Starting from any given user, the entire connected component of the coaching graph containing that user should become infected.
 
 
-This Django project is a visualization of the challenge described above, available here: https://warm-spire-20456.herokuapp.com
