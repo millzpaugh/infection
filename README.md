@@ -1,6 +1,6 @@
 # infection
 
-This Django project is a visualization of the challenge described below. It is available here at this url: https://warm-spire-20456.herokuapp.com
+This Django project is a visualization of the challenge described below. It is available here: https://warm-spire-20456.herokuapp.com
 
 
 <strong>The Challenge:</strong>
