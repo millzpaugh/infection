@@ -18,7 +18,7 @@
 
                     {{ form }}
                      <button style='margin:20px;' type="submit" class="btn btn-primary btn-lg login-btn">
-                     Click Here to Infect The Entire Network!</button></a>
+                     Click Here To Infect The Entire Network</button></a>
                 {%  endif %}
                 </form>
 
@@ -33,20 +33,21 @@
 
                 {% if rounds %}
 
-                <div class="col-md-9">
+                <div class="col-md-10">
                 <div class="row">
                     <h3>There are {{ networked_users }} networked users and {{ pool_size }} total users in the network.</h3>
                     <h3>To infect all users, there were {{ rounds_for_total_infection }} rounds of infection.</h3>
                 </div>
                     {%  for k,users in infection_rounds.items %}
                       <div class="row">
+
                       <hr>
                         <h3>Round {{ k }}</h3>
                         <h4>Infected Users: <br><br>
-                                <ul style="list-style-type: none;">
+                                <ul style="list-style-type: none;margin:1px;">
                                 {% for u in users %}
 
-                                <li class="col-md-3"><img style="border-radius:10%" src="http://lorempixel.com/100/100/sports/{{ k }}">{{ u.first_name }} {{ u.last_name }}</li>
+                                <li class="col-md-4"><img style="margin:4px;border-radius:10%" src={% if k == 4 %}'http://lorempixel.com/100/100/sports/6/' {% else %} 'http://lorempixel.com/100/100/sports/{{ k }}'{% endif %}>{{ u.first_name }} {{ u.last_name }}</li>
                                 {% endfor %}
                                  </ul>
 
@@ -59,9 +60,9 @@
                         <h3>Outliers</h3>
                         <h4>Users not infected because they're not connected to any other users.</h4>
                         <h4>
-                        <ul style="list-style-type: none;">
+                        <ul style="list-style-type: none;margin:1px;">
                         {% for u in outliers %}
-                            <li class="col-md-3"><img style="margin:1px;" src="http://lorempixel.com/100/100/sports/9/">{{ u.first_name }} {{ u.last_name }}</li>
+                            <li class="col-md-4"><img style="margin:4px;border-radius:10%;" src="http://lorempixel.com/100/100/sports/9/">{{ u.first_name }} {{ u.last_name }}</li>
                         {% endfor %}
                          </ul>
 

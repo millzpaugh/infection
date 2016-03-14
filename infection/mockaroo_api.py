@@ -176,7 +176,6 @@ def infect_all_users():
         network_size = len(user_networks_to_infect)
 
         for i in range(0,network_size):
-            print network_size
             for u in user_networks_to_infect[i]:
                 network = infect_network(u)
                 networks.append(network)

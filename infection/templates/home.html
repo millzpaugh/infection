@@ -25,21 +25,22 @@
 
     </div>
     <div class="row buttons">
-        <div class="col-md-4">
+        <div class="col-md-4 col-md-offset-1">
+         <img style="opacity:.5;width:100%;position:absolute;" src='http://www.wonderbabiesco.org/UserFiles/Image/network%20graph%2012[1]_14_09.jpg'>
 
-                    <img style="opacity:.5;width:100%" src='http://www.wonderbabiesco.org/UserFiles/Image/network%20graph%2012[1]_14_09.jpg'>
                                 </div>
         <div class="form-group">
 
 
             <div style="margin-top:100px;" class="col-md-4 col-md-offset-0">
-                <a href="{% url 'full_infection' %}">
-                    <button type="submit" class="btn btn-primary btn-lg login-btn">
 
-                     Full Infection</button></a>
-                <a href="{% url 'limited_infection' %}">
-                    <button type="submit" class="btn btn-primary btn-lg login-btn">
-                     Limited Infection</button></a>
+                <a href="{% url 'full_infection' %}">
+                    <button type="submit" class="btn btn-primary btn-lg login-btn col-md-8 col-md-offset-1">
+
+                     Start the Network Infection</button></a>
+{#                <a href="{% url 'limited_infection' %}">#}
+{#                    <button type="submit" class="btn btn-primary btn-lg login-btn">#}
+{#                     Limited Infection</button></a>#}
             </div>
         </div>
     </div>

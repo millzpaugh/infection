@@ -36,7 +36,7 @@
                     <div class="navbar-header">
                     <div style="margin:70px;">
                         <img style="height:80px;margin:20px;margin-top:-40px;border-radius:10px;" src="http://nursingguides.org/wp-content/uploads/2015/01/HIV-infection.jpg">
-                        <h2 style="margin-left:150px;margin-top:-100px;">THE KHAN ACADMEY INFECTION</h2></div>
+                        <h2 style="margin-left:150px;margin-top:-100px;">THE INFECTION CHALLENGE</h2></div>
 
 
                       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -60,7 +60,7 @@
                       <ul class="nav navbar-nav navbar-right">
                         <li><a href="{% url 'home' %}">Home</a></li>
                         <li><a href="{% url 'full_infection' %}">Full Infection</a></li>
-                        <li><a href="{% url 'limited_infection' %}">Limited Infection</a></li>
+{#                        <li><a href="{% url 'limited_infection' %}">Limited Infection</a></li>#}
 
                       </ul>
                     </div><!-- /.navbar-collapse -->
@@ -88,6 +88,7 @@
         {# Global javascript #}
         <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <script src="//d3js.org/d3.v3.min.js"></script>
 
         {% block extra_js %}
             {# Override this in templates to add extra javascript #}
