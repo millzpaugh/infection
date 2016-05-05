@@ -14,6 +14,7 @@ import json
 import requests
 from infection.models import KhanUser, Coach, Student
 from infection.mockaroo_api import MockarooAPIClient, MockarooResponse, infect_all_users, MockarooAPIException
+from limited_infection import infect_users
 import itertools
 import collections
 # Create your views here.
@@ -50,10 +51,11 @@ class FullInfectionView(View):
             mresponse = MockarooResponse(users=r)
             mresponse.create_test_users()
             mresponse.assign_mentees()
-            rounds = infect_all_users()
-            infection_rounds = rounds['rounds']
-            rounds_for_total_infection = len(rounds['rounds'].keys())
-            networked_users = len(rounds['networked_users'])
+            infection_result = infect_users()
+            raise
+            infection_rounds = infection_result['infection_result']
+            rounds_for_total_infection = len(infection_result['infection_result'].keys())
+            networked_users = len(infection_result['networked_users'])
             students_only = KhanUser.objects.filter(is_coach=False)
             outliers = [s for s in students_only if s.is_coached == False]
             for k,v in infection_rounds.iteritems():
@@ -65,7 +67,7 @@ class FullInfectionView(View):
                                 users.append(u)
                     infection_rounds[k] = users
 
-            return render(request,  self.template, {'rounds':rounds,
+            return render(request,  self.template, {'infection_result':infection_result,
                                                     'rounds_for_total_infection':rounds_for_total_infection,
                                                     'networked_users':networked_users,
                                                     'pool_size':pool_size,
