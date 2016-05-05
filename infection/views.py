@@ -9,14 +9,10 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 import time
-from infection.forms import FullInfectionForm
-import json
-import requests
-from infection.models import KhanUser, Coach, Student
-from infection.mockaroo_api import MockarooAPIClient, MockarooResponse, infect_all_users, MockarooAPIException
-from limited_infection import infect_users
-import itertools
-import collections
+from infection.forms import FullInfectionForm, LimitedInfectionForm
+from infection.mockaroo_api import MockarooAPIClient, MockarooResponse, MockarooAPIException
+from infection.infect import infect_users
+
 # Create your views here.
 
 class HomeView(View):
@@ -48,36 +44,45 @@ class FullInfectionView(View):
                 messages.error(request, "The Mockaroo API is not working. :( ")
                 return redirect('full_infection')
 
+
             mresponse = MockarooResponse(users=r)
             mresponse.create_test_users()
             mresponse.assign_mentees()
             infection_result = infect_users()
-            raise
-            infection_rounds = infection_result['infection_result']
-            rounds_for_total_infection = len(infection_result['infection_result'].keys())
-            networked_users = len(infection_result['networked_users'])
-            students_only = KhanUser.objects.filter(is_coach=False)
-            outliers = [s for s in students_only if s.is_coached == False]
-            for k,v in infection_rounds.iteritems():
-                users = []
-                if k > 1:
-                    for list in v:
-                        for u in list:
-                            if u not in users:
-                                users.append(u)
-                    infection_rounds[k] = users
-
             return render(request,  self.template, {'infection_result':infection_result,
-                                                    'rounds_for_total_infection':rounds_for_total_infection,
-                                                    'networked_users':networked_users,
-                                                    'pool_size':pool_size,
-                                                    'infection_rounds':infection_rounds,
-                                                    'outliers':outliers})
+                                                    'pool_size':pool_size})
 
 
 class LimitedInfection(View):
     template = "limited_infection.html"
+    form_class = LimitedInfectionForm
 
     def get(self, request, *args, **kwargs):
+        form = self.form_class
+        get = True
 
-        return render(request,  self.template, {})
+        return render(request,  self.template, {'form':form, 'get':get})
+
+    def post(self, request, *args, **kwargs):
+        form = LimitedInfectionForm(request.POST)
+        if form.is_valid():
+            form_data = form.clean()
+            try:
+                pool_size = form_data['pool_size']
+                infection_size = form_data['infection_size']
+                m = MockarooAPIClient()
+                r = m.retrieve_data_with_custom_schema(pool_size)
+            except MockarooAPIException:
+                messages.error(request, "The Mockaroo API is not working. :( ")
+                return redirect('full_infection')
+
+            mresponse = MockarooResponse(users=r)
+            mresponse.create_test_users()
+            mresponse.assign_mentees()
+            infection_result = infect_users()
+            users = infection_result.limit_user_infection(infection_size)
+
+        return render(request,  self.template, {'users':users,
+                                                'infection_result':infection_result,
+                                                'infection_size':infection_size,
+                                                'pool_size':pool_size})

@@ -33,28 +33,33 @@ class InfectionResult():
 
     @property
     def entire_network_infected(self):
-        return all([u.is_infected for u in self.networked_users])
+        all_users = KhanUser.objects.all()
+        relevant_users = remove_outliers(all_users)
+        return all([u.is_infected for u in relevant_users])
+
+    def clean_rounds(self):
+        for k, round in enumerate(self.rounds):
+            users = []
+            if k > 0:
+                for list in round.users_infected:
+                    for u in list:
+                        if u not in users:
+                            users.append(u)
+                round.users_infected = users
+
+    def limit_user_infection(self, number_of_users_to_infect):
+        users = []
+
+        for rd in self.rounds:
+            for u in rd.users_infected:
+                if len(users) < number_of_users_to_infect:
+                    users.append(u)
+
+        return users
 
 class InfectionRound():
     def __init__(self, users_infected):
         self.users_infected = users_infected
-
-    def clean_network(self):
-        for network in self.users_infected:
-            users = []
-            if self.users_infected[0]:
-                if network == []:
-                    for list in self.users_infected:
-                        for u in list:
-                            if u not in users:
-                                users.append(u)
-        self.users_infected = users
-
-
-class UsersToInfect():
-    def __init__(self, user):
-        self.user = user
-        self.is_infected = False
 
 def infect_network(user):
     user.is_infected = True
@@ -106,7 +111,6 @@ def infect_users():
             infection_result.rounds.append(round)
         else:
             round = InfectionRound(users_infected=[])
-
             user_networks_to_infect = infection_result.retrieve_most_recently_infected_network
 
             network_size = len(user_networks_to_infect)
@@ -116,12 +120,17 @@ def infect_users():
                     network = infect_network(u)
                     round.users_infected.append(network)
 
+            infection_result.rounds.append(round)
+
             if infection_result.entire_network_infected:
                 break
             else:
                 continue
 
+    infection_result.clean_rounds()
     return infection_result
+
+
 
 
 

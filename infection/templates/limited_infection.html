@@ -11,7 +11,57 @@
             <div class="col-md-6 col-md-offset-3">
               <h1>THE LIMITED INFECTION</h1>
                 <br>
-                   <h2> Coming soon!!</h2>
+                <div>
+                {%  if get %}
+                <form action="{% url 'limited_infection' %}" method="post" >
+                    {% csrf_token %}
+                    <fieldset >
+                    {%  for f in form%}
+                    <div class="row">
+                        <label >{{ f.label }}</label>
+                        <input name="{{ f.name }}" type="text" class="form-control" rows="0" placeholder={{ f.label }}>
+                        {% if f.errors %}
+                            <div class="control-group error">
+                                <div class="controls">
+                                        <span style="color:red;" class="col-md-6 col-md-offset-0 help-inline">
+                                                {{ f.errors }}
+                                        </span>
+                                </div>
+                            </div>
+
+                        {% endif %}
+                        <br>
+                     </div>
+
+                    {% endfor %}
+                     <button style='margin:20px;' type="submit" class="btn btn-primary btn-lg login-btn">
+                     Click Here To Apply a Limited Infection</button></a>
+                    </fieldset>
+                </form>
+                {%  endif %}
+
+                   {% if infection_result %}
+
+                <div class="col-md-10">
+                <div class="row">
+                    <h3>There are {{ pool_size }} total users in the network.</h3>
+                    <h3> The {{ infection_size }} users are infected.</h3>
+                </div>
+                      <div class="row">
+
+                      <hr>
+                        <h4>Infected Users</h4>
+                                <ul style="list-style-type: none;margin:1px;">
+                                {% for u in users %}
+                                    <li class="col-md-4"><img style="margin:4px;border-radius:10%" src='http://loremflickr.com/100/100?random={{ forloop.counter }}'>{{ u.first_name }} {{ u.last_name }}</li>
+                                {% endfor %}
+                                 </ul>
+
+                       </div>
+
+
+
+                {% endif %}
 
                 </div>
             </div>

@@ -31,23 +31,24 @@
                 </div>
                 {% endif %}
 
-                {% if rounds %}
+                {% if infection_result %}
 
                 <div class="col-md-10">
                 <div class="row">
-                    <h3>There are {{ networked_users }} networked users and {{ pool_size }} total users in the network.</h3>
-                    <h3>To infect all users, there were {{ rounds_for_total_infection }} rounds of infection.</h3>
+                    <h3>There are {{ infection_result.networked_users|length }} networked users and {{ pool_size }} total users in the network.</h3>
+                    <h3>There are {{ infection_result.number_of_outliers }} users who are outliers.</h3>
+                    <h3>To infect all users, there were {{ infection_result.number_of_rounds }} rounds of infection.</h3>
                 </div>
-                    {%  for k,users in infection_rounds.items %}
+                    {%  for rd in infection_result.rounds %}
                       <div class="row">
 
                       <hr>
-                        <h3>Round {{ k }}</h3>
+                        <h3>Round {{ forloop.counter }}</h3>
                         <h4>Infected Users: <br><br>
                                 <ul style="list-style-type: none;margin:1px;">
-                                {% for u in users %}
+                                {% for u in rd.users_infected %}
 
-                                <li class="col-md-4"><img style="margin:4px;border-radius:10%" src={% if k == 4 %}'http://lorempixel.com/100/100/sports/6/' {% else %} 'http://lorempixel.com/100/100/sports/{{ k }}'{% endif %}>{{ u.first_name }} {{ u.last_name }}</li>
+                                <li class="col-md-4"><img style="margin:4px;border-radius:10%" src='http://loremflickr.com/100/100?random={{ forloop.counter }}'>{{ u.first_name }} {{ u.last_name }}</li>
                                 {% endfor %}
                                  </ul>
 
@@ -61,8 +62,8 @@
                         <h4>Users not infected because they're not connected to any other users.</h4>
                         <h4>
                         <ul style="list-style-type: none;margin:1px;">
-                        {% for u in outliers %}
-                            <li class="col-md-4"><img style="margin:4px;border-radius:10%;" src="http://lorempixel.com/100/100/sports/9/">{{ u.first_name }} {{ u.last_name }}</li>
+                        {% for u in infection_result.users_who_are_outliers %}
+                            <li class="col-md-4"><img style="margin:4px;border-radius:10%;" src='http://loremflickr.com/100/100?random={{ forloop.counter }}'>{{ u.first_name }} {{ u.last_name }}</li>
                         {% endfor %}
                          </ul>
 

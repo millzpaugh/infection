@@ -53,7 +53,7 @@ class MockarooResponse():
                         student_id = str(ident)
                         student_user = KhanUser.objects.filter(mockaroo_id=student_id)[0]
                         student = Student.objects.get(user=student_user)
-                        #checks that for self-coaching relationship
+                        #checks not self-coaching relationship
                         if student_user.is_coach:
                             student_coach = Coach.objects.filter(user=student_user)[0]
                             if not student_id == coach.user.mockaroo_id:
@@ -122,74 +122,4 @@ class MockarooAPIClient():
         except RequestException as ex:
             raise MockarooAPIException("Error from Mockaroo API: {}".format(ex.message)), None, sys.exc_info()[2]
         return response.json()
-
-def infect_network(user):
-    user.is_infected = True
-    user.save()
-    infected = []
-
-    if user.is_coach:
-        coach = Coach.objects.get(user=user)
-        for s in coach.students.all():
-            infected.append(s.user)
-    if user.is_coached:
-        for c in user.coached_by():
-            infected.append(c)
-
-    newly_infected = []
-    for u in infected:
-        if u.is_infected == False:
-            u.is_infected = True
-            u.save()
-            newly_infected.append(u)
-
-    return newly_infected
-
-def remove_outliers(all_users):
-    relevant_users = []
-    for u in all_users:
-        if u.is_coached == True or u.is_coach == True:
-            relevant_users.append(u)
-    return relevant_users
-
-def infect_all_users():
-    KhanUser.objects.reset_infection_status_to_zero()
-
-    user = KhanUser.objects.order_by('?').first()
-    rounds_of_infections = {1:[user]}
-
-    all_users = KhanUser.objects.all()
-    relevant_users = remove_outliers(all_users)
-
-    infection_spreading = True
-
-    while infection_spreading:
-        if rounds_of_infections.keys()[-1] == 1:
-            first_network = infect_network(user)
-            rounds_of_infections[2] = [first_network]
-
-        networks = []
-        current_infection_round = rounds_of_infections.keys()[-1]
-
-        user_networks_to_infect = rounds_of_infections[current_infection_round]
-
-        network_size = len(user_networks_to_infect)
-
-        for i in range(0,network_size):
-            for u in user_networks_to_infect[i]:
-                network = infect_network(u)
-                networks.append(network)
-        next_infection_round = rounds_of_infections.keys()[-1] + 1
-        rounds_of_infections[next_infection_round] = networks
-
-        all_users = KhanUser.objects.all()
-        relevant_users = remove_outliers(all_users)
-
-
-        if all([u.is_infected for u in relevant_users]):
-            break
-        else:
-            continue
-
-    return {'rounds':rounds_of_infections, 'networked_users': relevant_users}
 
