@@ -14,7 +14,6 @@ class InfectionTest(TestCase):
         all_users = KhanUser.objects.all()
         relevant_users = remove_outliers(all_users)
         original_user = KhanUser.objects.get(id=12)
-        # outliers = 4, 10
         self.infection_result = InfectionResult(original_user_infected=original_user, users=all_users, networked_users=relevant_users)
 
 

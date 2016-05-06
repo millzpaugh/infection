@@ -50,6 +50,7 @@ class KhanUser(models.Model):
         return coached_by
 
 
+
 class Student(models.Model):
     user = models.ForeignKey(KhanUser, null=True)
     def __unicode__(self):
