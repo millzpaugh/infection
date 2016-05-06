@@ -16,7 +16,7 @@ class FullInfectionForm(forms.Form):
 class LimitedInfectionForm(forms.Form):
     pool_size = forms.IntegerField(required=True, label="User Pool Size (50 max)", widget=forms.TextInput(attrs={'placeholder': 'Enter Pool Size'})
     )
-    infection_size = forms.IntegerField(required=True, label="Number of Users to Infect", widget=forms.TextInput(attrs={'placeholder': 'Enter Pool Size'})
+    infection_size = forms.IntegerField(required=True, label="Number of Users to Infect (Must be less than Pool Size)", widget=forms.TextInput(attrs={'placeholder': 'Enter Pool Size'})
     )
 
     # def clean(self):
