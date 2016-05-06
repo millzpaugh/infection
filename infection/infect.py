@@ -10,7 +10,10 @@ def number_of_unique_user_connections(user):
         coach = Coach.objects.get(user=user)
         for s in coach.students.all():
             infected.append(s.user)
-
+    if user.is_coached:
+        for c in user.coached_by():
+            if not c in infected:
+                infected.append(c)
     return len(infected)
 
 class InfectionResult():
