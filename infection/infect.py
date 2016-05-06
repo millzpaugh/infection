@@ -60,7 +60,7 @@ class InfectionResult():
 
     def limit_user_infection(self, number_of_users_to_infect):
         user_connections = [{'user':u, 'connections':number_of_unique_user_connections(u)} for u in self.networked_users]
-        sorted_user_connections = sorted(user_connections, key=itemgetter('connections'), reverse=True)
+        sorted_user_connections = sorted(user_connections, key=itemgetter('connections'), reverse=False)
         user_object_list = [u['user'] for u in sorted_user_connections]
         users = []
 
