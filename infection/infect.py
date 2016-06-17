@@ -102,23 +102,21 @@ def remove_outliers(all_users):
             relevant_users.append(u)
     return relevant_users
 
-def infect_users():
+def infect_users(origin_user, relevant_users):
     KhanUser.objects.reset_infection_status_to_zero()
-
-    user = KhanUser.objects.order_by('?').first()
     all_users = KhanUser.objects.all()
-    relevant_users = remove_outliers(all_users)
 
-    infection_result = InfectionResult(original_user_infected=user, users=all_users, networked_users=relevant_users)
 
-    round = InfectionRound(users_infected=[user])
+    infection_result = InfectionResult(original_user_infected=origin_user, users=all_users, networked_users=relevant_users)
+
+    round = InfectionRound(users_infected=[origin_user])
     infection_result.rounds.append(round)
 
     infection_spreading = True
 
     while infection_spreading:
         if infection_result.number_of_rounds == 1:
-            first_network = infect_network(user)
+            first_network = infect_network(origin_user)
             round = InfectionRound(users_infected=[first_network])
             infection_result.rounds.append(round)
         else:

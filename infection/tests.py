@@ -12,9 +12,9 @@ class InfectionTest(TestCase):
         data.create_test_users()
         data.assign_mentees()
         all_users = KhanUser.objects.all()
-        relevant_users = remove_outliers(all_users)
-        original_user = KhanUser.objects.get(id=12)
-        self.infection_result = InfectionResult(original_user_infected=original_user, users=all_users, networked_users=relevant_users)
+        self.relevant_users = remove_outliers(all_users)
+        self.origin_user = KhanUser.objects.get(id=12)
+        self.infection_result = InfectionResult(original_user_infected=self.origin_user, users=all_users, networked_users=self.relevant_users)
 
 
     def test_users_who_are_outliers(self):
@@ -30,13 +30,10 @@ class InfectionTest(TestCase):
         self.assertEqual(r_users, user_ids)
         self.assertEqual(outlier_users, outlier_ids)
 
-    def infect_user(self):
-        pass
-
-    def test_infect_network(self):
-        result = infect_users()
-        networked_users = len(result.networked_users)
-        network = self.infection_result.retrieve_most_recently_infected_network
+    def test_full_network_infection(self):
+        infection_result = infect_users(self.origin_user, self.relevant_users)
+        networked_users = len(infection_result.networked_users)
+        network = infection_result.retrieve_most_recently_infected_network
         user1 = KhanUser.objects.get(id=1)
         user2 = KhanUser.objects.get(id=6)
         last_round = [user1,user2]

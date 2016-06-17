@@ -11,7 +11,8 @@ from django.http import HttpResponse
 import time
 from infection.forms import FullInfectionForm, LimitedInfectionForm
 from infection.mockaroo_api import MockarooAPIClient, MockarooResponse, MockarooAPIException
-from infection.infect import infect_users
+from infection.infect import infect_users, remove_outliers
+from infection.models import KhanUser
 
 # Create your views here.
 
@@ -48,9 +49,16 @@ class FullInfectionView(View):
             mresponse = MockarooResponse(users=r)
             mresponse.create_test_users()
             mresponse.assign_mentees()
-            infection_result = infect_users()
+            origin_user = KhanUser.objects.order_by('?').first()
+            all_users = KhanUser.objects.all()
+            relevant_users = remove_outliers(all_users)
+            infection_result = infect_users(origin_user, relevant_users)
+
             return render(request,  self.template, {'infection_result':infection_result,
                                                     'pool_size':pool_size})
+        else:
+            return render(request,  self.template, {'form':form,
+                                                    'get': True})
 
 
 class LimitedInfection(View):
@@ -64,6 +72,7 @@ class LimitedInfection(View):
         return render(request,  self.template, {'form':form, 'get':get})
 
     def post(self, request, *args, **kwargs):
+        users = None
         form = LimitedInfectionForm(request.POST)
         if form.is_valid():
             form_data = form.clean()
@@ -79,10 +88,16 @@ class LimitedInfection(View):
             mresponse = MockarooResponse(users=r)
             mresponse.create_test_users()
             mresponse.assign_mentees()
-            infection_result = infect_users()
+            origin_user = KhanUser.objects.order_by('?').first()
+            all_users = KhanUser.objects.all()
+            relevant_users = remove_outliers(all_users)
+            infection_result = infect_users(origin_user, relevant_users)
             users = infection_result.limit_user_infection(infection_size)
 
-        return render(request,  self.template, {'users':users,
+            return render(request,  self.template, {'users':users,
                                                 'infection_result':infection_result,
                                                 'infection_size':infection_size,
                                                 'pool_size':pool_size})
+        else:
+            return render(request,  self.template, {'form':form,
+                                                    'get': True})

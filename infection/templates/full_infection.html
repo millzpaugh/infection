@@ -14,22 +14,31 @@
                 <div>
                 {%  if get %}
                 <form action="{% url 'full_infection' %}" method="post" >
-                    {% csrf_token %}
+                    <fieldset >
+                    {%  for f in form%}
+                    <div class="row">
+                        <label >{{ f.label }}</label>
+                        <input name="{{ f.name }}" type="text" class="form-control" rows="0" placeholder={{ f.label }}>
+                        {% if f.errors %}
+                            <div class="control-group error">
+                                <div class="controls">
+                                        <span style="color:red;" class="col-md-6 col-md-offset-0 help-inline">
+                                                {{ f.errors }}
+                                        </span>
+                                </div>
+                            </div>
 
-                    {{ form }}
+                        {% endif %}
+                        <br>
+                     </div>
+                    </fieldset>
+                    {% endfor %}
                      <button style='margin:20px;' type="submit" class="btn btn-primary btn-lg login-btn">
                      Click Here To Infect The Entire Network</button></a>
                 {%  endif %}
                 </form>
 
 
-                {% if messages %}
-                <div>
-                {% for m in messages %}
-                    <h3>{{ m }}</h3>
-                {% endfor %}
-                </div>
-                {% endif %}
 
                 {% if infection_result %}
 
