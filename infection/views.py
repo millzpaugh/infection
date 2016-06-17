@@ -36,7 +36,7 @@ class FullInfectionView(View):
     def post(self, request, *args, **kwargs):
         form = FullInfectionForm(request.POST)
         if form.is_valid():
-            form_data = form.clean()
+            form_data = form.cleaned_data
             try:
                 pool_size = form_data['pool_size']
                 m = MockarooAPIClient()
@@ -75,7 +75,7 @@ class LimitedInfection(View):
         users = None
         form = LimitedInfectionForm(request.POST)
         if form.is_valid():
-            form_data = form.clean()
+            form_data = form.cleaned_data
             try:
                 pool_size = form_data['pool_size']
                 infection_size = form_data['infection_size']

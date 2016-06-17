@@ -16,6 +16,7 @@
                 <form action="{% url 'full_infection' %}" method="post" >
                     <fieldset >
                     {%  for f in form%}
+                        {% csrf_token %}
                     <div class="row">
                         <label >{{ f.label }}</label>
                         <input name="{{ f.name }}" type="text" class="form-control" rows="0" placeholder={{ f.label }}>
