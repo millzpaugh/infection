@@ -2,6 +2,27 @@
 
 This Django project is a visualization of the challenge described below. It is available here: https://warm-spire-20456.herokuapp.com
 
+<strong>Run the project locally:</strong><br>
+*Note: This app uses the Mockaroo API to seed data - if you don't have an internet connection, it won't work!* 
+
+1) Clone the project. Create a virtual environment. <br>
+2) Install requirements and migrate DB tables. 
+```
+pip install -r requirements.txt 
+```
+```
+python manage.py migrate 
+```
+3) Start your server! 
+```
+./up.sh
+```
+4) If you want to run tests, use the cmd below. 
+```
+python manage.py test 
+```
+
+
 
 <strong>The Challenge:</strong>
 
