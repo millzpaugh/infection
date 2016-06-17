@@ -17,7 +17,7 @@ python manage.py migrate
 ```
 ./up.sh
 ```
-4) If you want to run tests. 
+4) If you want to run tests, use the cmd below. 
 ```
 python manage.py test 
 ```
